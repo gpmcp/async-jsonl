@@ -1,4 +1,4 @@
-use async_jsonl::{Jsonl, JsonlDeserialize, JsonlValueDeserialize, jsonl_values};
+use async_jsonl::{Jsonl, JsonlDeserialize, JsonlValueDeserialize};
 use futures::StreamExt;
 use serde::Deserialize;
 use serde_json::Value;
@@ -221,7 +221,7 @@ async fn test_jsonl_value_deserialization() {
 "#;
 
     let reader = Cursor::new(data.as_bytes());
-    let mut stream = jsonl_values(reader);
+    let mut stream = Jsonl::new(reader).deserialize_values();
 
     // Test first value
     let first = stream.next().await.unwrap().unwrap();
@@ -270,7 +270,7 @@ invalid_json_line
 "#;
 
     let reader = Cursor::new(data.as_bytes());
-    let results: Vec<_> = jsonl_values(reader).collect().await;
+    let results: Vec<_> = Jsonl::new(reader).deserialize_values().collect().await;
 
     assert_eq!(results.len(), 3);
     assert!(results[0].is_ok());
@@ -289,7 +289,7 @@ async fn test_complex_nested_values() {
 "#;
 
     let reader = Cursor::new(data.as_bytes());
-    let results: Vec<_> = jsonl_values(reader).collect().await;
+    let results: Vec<_> = Jsonl::new(reader).deserialize_values().collect().await;
 
     assert_eq!(results.len(), 2);
     assert!(results.iter().all(|r| r.is_ok()));
