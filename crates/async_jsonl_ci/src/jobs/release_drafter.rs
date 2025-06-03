@@ -5,7 +5,10 @@ pub fn create_release_drafter_workflow() -> Workflow {
     let mut release_drafter = Workflow::default()
         .name("Release Drafter")
         .on(Event {
-            push: Some(Push { branches: vec!["main".to_string()], ..Push::default() }),
+            push: Some(Push {
+                branches: vec!["main".to_string()],
+                ..Push::default()
+            }),
             pull_request_target: Some(PullRequestTarget {
                 types: vec![
                     PullRequestType::Opened,
