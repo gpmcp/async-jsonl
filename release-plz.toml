@@ -1,0 +1,58 @@
+[workspace]
+# Enable workspace mode to handle the multi-crate workspace
+allow_dirty = true
+
+# Configure specifically for the async-jsonl main crate
+[[package]]
+name = "async-jsonl"
+# Path to the crate
+path = "crates/async_jsonl"
+# Generate changelog for this crate
+changelog = false
+# Include git cliff configuration for better changelog
+release = true
+# Create git tags
+git_tag_enable = true
+# Publish to crates.io
+publish = true
+# Use semver compliant versioning 
+semver_check = true
+
+commit_parsers = [
+    { message = "^feat", group = "⭐ Features" },
+    { message = "^fix", group = "🐛 Bug Fixes" },
+    { message = "^doc", group = "📚 Documentation" },
+    { message = "^perf", group = "⚡ Performance" },
+    { message = "^refactor", group = "🔄 Refactoring" },
+    { message = "^style", group = "🎨 Styling" },
+    { message = "^test", group = "🧪 Testing" },
+    { message = "^chore", group = "⚙️ Miscellaneous Tasks" },
+    { body = ".*security", group = "🔒 Security" },
+    { message = "^revert", group = "⏪ Revert" },
+]
+
+
+# Don't release CI, tests, or examples crates
+[[package]]
+name = "async_jsonl_ci"
+release = false
+publish = false
+
+[[package]]
+name = "async_jsonl_tests"
+release = false
+publish = false
+
+[[package]]
+name = "async_jsonl_examples"
+release = false
+publish = false
+
+# Filter out commits 
+filter_unconventional = true
+# Protect breaking changes
+protect_breaking_commits = false
+# Split commits
+split_commits = false
+# Sort commits
+sort_commits = "newest"
