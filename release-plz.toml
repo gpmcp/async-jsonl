@@ -9,6 +9,7 @@ release = true
 git_tag_enable = true
 publish = true
 semver_check = true
+sort_commits = "newest"
 
 # Don't release CI, tests, or examples crates
 [[package]]
