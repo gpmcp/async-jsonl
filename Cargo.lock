@@ -315,7 +315,7 @@ dependencies = [
 [[package]]
 name = "gh-workflow"
 version = "0.6.0"
-source = "git+https://github.com/tailcallhq/gh-workflow/?rev=6b30b75e8a5d9c8b3c0aad69e4b1ba7bd3d82dbf#6b30b75e8a5d9c8b3c0aad69e4b1ba7bd3d82dbf"
+source = "git+https://github.com/tailcallhq/gh-workflow/?rev=ec809ad6620fc6a599152495eee28216f731afd1#ec809ad6620fc6a599152495eee28216f731afd1"
 dependencies = [
  "async-trait",
  "derive_more",
@@ -332,7 +332,7 @@ dependencies = [
 [[package]]
 name = "gh-workflow-macros"
 version = "0.6.0"
-source = "git+https://github.com/tailcallhq/gh-workflow/?rev=6b30b75e8a5d9c8b3c0aad69e4b1ba7bd3d82dbf#6b30b75e8a5d9c8b3c0aad69e4b1ba7bd3d82dbf"
+source = "git+https://github.com/tailcallhq/gh-workflow/?rev=ec809ad6620fc6a599152495eee28216f731afd1#ec809ad6620fc6a599152495eee28216f731afd1"
 dependencies = [
  "heck",
  "quote",
@@ -342,7 +342,7 @@ dependencies = [
 [[package]]
 name = "gh-workflow-tailcall"
 version = "0.5.2"
-source = "git+https://github.com/tailcallhq/gh-workflow/?rev=6b30b75e8a5d9c8b3c0aad69e4b1ba7bd3d82dbf#6b30b75e8a5d9c8b3c0aad69e4b1ba7bd3d82dbf"
+source = "git+https://github.com/tailcallhq/gh-workflow/?rev=ec809ad6620fc6a599152495eee28216f731afd1#ec809ad6620fc6a599152495eee28216f731afd1"
 dependencies = [
  "derive_setters",
  "gh-workflow",

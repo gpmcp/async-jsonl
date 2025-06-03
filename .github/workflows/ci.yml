@@ -91,6 +91,7 @@ jobs:
       uses: release-plz/action@v0.5
       with:
         command: release
+        fetch-depth: '0'
     concurrency:
       group: release-${{github.ref}}
       cancel-in-progress: false
@@ -115,6 +116,7 @@ jobs:
       uses: release-plz/action@v0.5
       with:
         command: release-pr
+        fetch-depth: '0'
     concurrency:
       group: release-${{github.ref}}
       cancel-in-progress: false
