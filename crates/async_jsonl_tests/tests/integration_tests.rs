@@ -1,4 +1,4 @@
-use async_jsonl::{JsonlDeserialize, Jsonl, JsonlValueDeserialize, jsonl_values};
+use async_jsonl::{Jsonl, JsonlDeserialize, JsonlValueDeserialize, jsonl_values};
 use futures::StreamExt;
 use serde::Deserialize;
 use serde_json::Value;
@@ -22,15 +22,15 @@ async fn test_basic_jsonl_reading() {
 {"id": 2, "name": "Bob", "active": false}
 {"id": 3, "name": "Charlie", "active": true}
 "#;
-    
+
     let reader = Cursor::new(data.as_bytes());
     let iterator = Jsonl::new(reader);
-    
+
     let results: Vec<_> = iterator.collect().await;
-    
+
     assert_eq!(results.len(), 3);
     assert!(results.iter().all(|r| r.is_ok()));
-    
+
     let lines: Vec<String> = results.into_iter().map(|r| r.unwrap()).collect();
     assert_eq!(lines[0], r#"{"id": 1, "name": "Alice", "active": true}"#);
     assert_eq!(lines[1], r#"{"id": 2, "name": "Bob", "active": false}"#);
@@ -43,21 +43,42 @@ async fn test_jsonl_deserialization() {
 {"id": 2, "name": "Bob", "active": false}
 {"id": 3, "name": "Charlie", "active": true}
 "#;
-    
+
     let reader = Cursor::new(data.as_bytes());
     let iterator = Jsonl::new(reader);
     let deserializer = iterator.deserialize::<TestRecord>();
-    
+
     let results: Vec<_> = deserializer.collect().await;
-    
+
     assert_eq!(results.len(), 3);
     assert!(results.iter().all(|r| r.is_ok()));
-    
+
     let records: Vec<TestRecord> = results.into_iter().map(|r| r.unwrap()).collect();
-    
-    assert_eq!(records[0], TestRecord { id: 1, name: "Alice".to_string(), active: true });
-    assert_eq!(records[1], TestRecord { id: 2, name: "Bob".to_string(), active: false });
-    assert_eq!(records[2], TestRecord { id: 3, name: "Charlie".to_string(), active: true });
+
+    assert_eq!(
+        records[0],
+        TestRecord {
+            id: 1,
+            name: "Alice".to_string(),
+            active: true
+        }
+    );
+    assert_eq!(
+        records[1],
+        TestRecord {
+            id: 2,
+            name: "Bob".to_string(),
+            active: false
+        }
+    );
+    assert_eq!(
+        records[2],
+        TestRecord {
+            id: 3,
+            name: "Charlie".to_string(),
+            active: true
+        }
+    );
 }
 
 #[tokio::test]
@@ -70,16 +91,16 @@ async fn test_empty_lines_handling() {
 {"value": 3}
 
 "#;
-    
+
     let reader = Cursor::new(data.as_bytes());
     let iterator = Jsonl::new(reader);
     let deserializer = iterator.deserialize::<SimpleRecord>();
-    
+
     let results: Vec<_> = deserializer.collect().await;
-    
+
     assert_eq!(results.len(), 3);
     assert!(results.iter().all(|r| r.is_ok()));
-    
+
     let records: Vec<SimpleRecord> = results.into_iter().map(|r| r.unwrap()).collect();
     assert_eq!(records[0], SimpleRecord { value: 1 });
     assert_eq!(records[1], SimpleRecord { value: 2 });
@@ -92,18 +113,18 @@ async fn test_malformed_json_error() {
 {"value": invalid_json}
 {"value": 3}
 "#;
-    
+
     let reader = Cursor::new(data.as_bytes());
     let iterator = Jsonl::new(reader);
     let deserializer = iterator.deserialize::<SimpleRecord>();
-    
+
     let results: Vec<_> = deserializer.collect().await;
-    
+
     assert_eq!(results.len(), 3);
     assert!(results[0].is_ok());
     assert!(results[1].is_err()); // This should be an error due to malformed JSON
     assert!(results[2].is_ok());
-    
+
     // Check the error message
     let error_msg = results[1].as_ref().unwrap_err().to_string();
     assert!(error_msg.contains("Failed to parse JSON line"));
@@ -112,28 +133,28 @@ async fn test_malformed_json_error() {
 #[tokio::test]
 async fn test_empty_file() {
     let data = "";
-    
+
     let reader = Cursor::new(data.as_bytes());
     let iterator = Jsonl::new(reader);
-    
+
     let results: Vec<_> = iterator.collect().await;
-    
+
     assert_eq!(results.len(), 0);
 }
 
 #[tokio::test]
 async fn test_single_line() {
     let data = r#"{"value": 42}"#;
-    
+
     let reader = Cursor::new(data.as_bytes());
     let iterator = Jsonl::new(reader);
     let deserializer = iterator.deserialize::<SimpleRecord>();
-    
+
     let results: Vec<_> = deserializer.collect().await;
-    
+
     assert_eq!(results.len(), 1);
     assert!(results[0].is_ok());
-    
+
     let record = results[0].as_ref().unwrap();
     assert_eq!(*record, SimpleRecord { value: 42 });
 }
@@ -143,17 +164,17 @@ async fn test_type_mismatch_error() {
     let data = r#"{"value": "not_a_number"}
 {"value": 42}
 "#;
-    
+
     let reader = Cursor::new(data.as_bytes());
     let iterator = Jsonl::new(reader);
     let deserializer = iterator.deserialize::<SimpleRecord>();
-    
+
     let results: Vec<_> = deserializer.collect().await;
-    
+
     assert_eq!(results.len(), 2);
     assert!(results[0].is_err()); // Type mismatch error
     assert!(results[1].is_ok());
-    
+
     let record = results[1].as_ref().unwrap();
     assert_eq!(*record, SimpleRecord { value: 42 });
 }
@@ -164,30 +185,30 @@ async fn test_streaming_behavior() {
 {"value": 2}
 {"value": 3}
 "#;
-    
+
     let reader = Cursor::new(data.as_bytes());
     let iterator = Jsonl::new(reader);
     let mut deserializer = iterator.deserialize::<SimpleRecord>();
-    
+
     // Test that we can consume the stream one item at a time
     let first = deserializer.next().await;
     assert!(first.is_some());
     let first_result = first.unwrap();
     assert!(first_result.is_ok());
     assert_eq!(first_result.unwrap(), SimpleRecord { value: 1 });
-    
+
     let second = deserializer.next().await;
     assert!(second.is_some());
     let second_result = second.unwrap();
     assert!(second_result.is_ok());
     assert_eq!(second_result.unwrap(), SimpleRecord { value: 2 });
-    
+
     let third = deserializer.next().await;
     assert!(third.is_some());
     let third_result = third.unwrap();
     assert!(third_result.is_ok());
     assert_eq!(third_result.unwrap(), SimpleRecord { value: 3 });
-    
+
     let fourth = deserializer.next().await;
     assert!(fourth.is_none());
 }
@@ -274,7 +295,7 @@ async fn test_complex_nested_values() {
     assert!(results.iter().all(|r| r.is_ok()));
 
     let values: Vec<Value> = results.into_iter().map(|r| r.unwrap()).collect();
-    
+
     // Test first complex object
     assert_eq!(values[0]["nested"]["inner"][0], 1);
     assert_eq!(values[0]["nested"]["inner"][1], 2);
@@ -286,4 +307,57 @@ async fn test_complex_nested_values() {
     assert_eq!(values[1]["array"][1], "b");
     assert_eq!(values[1]["array"][2], "c");
     assert!(values[1]["null_val"].is_null());
+}
+
+#[tokio::test]
+async fn test_line_counting() {
+    let data = r#"{"id": 1}
+{"id": 2}
+
+{"id": 3}
+
+
+{"id": 4}
+"#;
+
+    let reader = Cursor::new(data.as_bytes());
+    let jsonl = Jsonl::new(reader);
+    let count = jsonl.count_lines().await.unwrap();
+    assert_eq!(count, 4); // Should count only non-empty lines
+}
+
+#[tokio::test]
+async fn test_file_line_counting_vs_manual_count() {
+    use tempfile::NamedTempFile;
+    use tokio::fs;
+
+    let temp_file = NamedTempFile::new().unwrap();
+    let temp_path = temp_file.path();
+
+    let data = r#"{"line": 1}
+{"line": 2}
+
+{"line": 3}
+{"line": 4}
+
+
+{"line": 5}
+"#;
+
+    fs::write(temp_path, data).await.unwrap();
+
+    // Count using the line counter
+    let counted_lines = Jsonl::from_path(temp_path)
+        .await
+        .unwrap()
+        .count_lines()
+        .await
+        .unwrap();
+
+    // Count manually by reading all lines
+    let jsonl = Jsonl::from_path(temp_path).await.unwrap();
+    let manual_count = jsonl.collect::<Vec<_>>().await.len();
+
+    assert_eq!(counted_lines, manual_count);
+    assert_eq!(counted_lines, 5);
 }

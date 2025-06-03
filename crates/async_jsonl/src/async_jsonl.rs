@@ -1,7 +1,7 @@
-use futures::{Stream, StreamExt};
-use serde::Deserialize;
+use futures::Stream;
 use std::pin::Pin;
 use std::task::{Context, Poll};
+use tokio::fs::File;
 use tokio::io::{AsyncBufReadExt, AsyncRead, BufReader, Lines};
 
 /// Iterator to read JSONL file as raw JSON strings
@@ -9,12 +9,33 @@ pub struct Jsonl<R> {
     pub(crate) lines: Lines<BufReader<R>>,
 }
 
-impl<R: AsyncRead> Jsonl<R> {
+impl<R: AsyncRead + Unpin> Jsonl<R> {
     pub fn new(file: R) -> Self {
         let reader = BufReader::new(file);
         Self {
             lines: reader.lines(),
         }
+    }
+    /// Count lines from any AsyncRead source
+    pub async fn count_lines(mut self) -> anyhow::Result<usize> {
+        let mut count = 0;
+        while let Some(line) = self.lines.next_line().await? {
+            let trimmed = line.trim();
+            if !trimmed.is_empty() {
+                count += 1;
+            }
+        }
+        Ok(count)
+    }
+}
+
+impl Jsonl<File> {
+    /// Create a new Jsonl reader from a file path
+    pub async fn from_path<P: AsRef<std::path::Path>>(path: P) -> anyhow::Result<Self> {
+        let file = File::open(path)
+            .await
+            .map_err(|e| anyhow::anyhow!("Failed to open file: {}", e))?;
+        Ok(Self::new(file))
     }
 }
 
@@ -36,27 +57,5 @@ impl<R: AsyncRead + Unpin> Stream for Jsonl<R> {
             Poll::Ready(Err(e)) => Poll::Ready(Some(Err(anyhow::anyhow!("IO error: {}", e)))),
             Poll::Pending => Poll::Pending,
         }
-    }
-}
-
-/// Extension trait to add deserialization capabilities to JsonlIterator
-pub trait JsonlDeserialize<R> {
-    /// Deserialize JSON lines into the specified type
-    fn deserialize<T>(self) -> impl Stream<Item = anyhow::Result<T>>
-    where
-        T: for<'a> Deserialize<'a>;
-}
-
-impl<R: AsyncRead + Unpin> JsonlDeserialize<R> for Jsonl<R> {
-    fn deserialize<T>(self) -> impl Stream<Item = anyhow::Result<T>>
-    where
-        T: for<'a> Deserialize<'a>,
-    {
-        self.map(|result| {
-            result.and_then(|line| {
-                serde_json::from_str::<T>(&line)
-                    .map_err(|e| anyhow::anyhow!("Failed to parse JSON line: {}", e))
-            })
-        })
     }
 }

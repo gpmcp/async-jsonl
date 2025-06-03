@@ -1,4 +1,4 @@
-use async_jsonl::{JsonlDeserialize, Jsonl};
+use async_jsonl::{Jsonl, JsonlDeserialize};
 use futures::StreamExt;
 use serde::Deserialize;
 use std::io::Cursor;
@@ -12,8 +12,8 @@ struct Person {
     city: String,
 }
 
-#[tokio::main(flavor = "current_thread")]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+#[tokio::main]
+async fn main() -> anyhow::Result<()> {
     // Sample JSONL data
     let jsonl_data = r#"{"name": "Alice", "age": 30, "city": "New York"}
 {"name": "Bob", "age": 25, "city": "San Francisco"}

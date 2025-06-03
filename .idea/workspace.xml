@@ -17,25 +17,24 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b4d525a9-62e2-42f3-9d21-5fb8e2542b98" name="Changes" comment="init">
-      <change afterPath="$PROJECT_DIR$/crates/async_jsonl/Cargo.toml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/crates/async_jsonl/src/async_jsonl.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/crates/async_jsonl/src/value.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_examples/Cargo.toml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_examples/src/main.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_tests/Cargo.toml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_tests/tests/integration_tests.rs" afterDir="false" />
+    <list default="true" id="b4d525a9-62e2-42f3-9d21-5fb8e2542b98" name="Changes" comment="impl JsonDeser for serde value">
+      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_examples/examples/count.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_examples/examples/simple.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/crates/async_jsonl/src/lib.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crates/async_jsonl/src/async_jsonl.rs" beforeDir="false" afterPath="$PROJECT_DIR$/crates/async_jsonl/src/async_jsonl.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crates/async_jsonl/src/value.rs" beforeDir="false" afterPath="$PROJECT_DIR$/crates/async_jsonl/src/value.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crates/async_jsonl_examples/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/crates/async_jsonl_examples/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crates/async_jsonl_examples/src/main.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/crates/async_jsonl_tests/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/crates/async_jsonl_tests/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crates/async_jsonl_tests/tests/integration_tests.rs" beforeDir="false" afterPath="$PROJECT_DIR$/crates/async_jsonl_tests/tests/integration_tests.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="RsBuildProfile:test" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="RsBuildProfile:dev" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -59,11 +58,13 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Cargo.Run count.executor": "Run",
+    "Cargo.Run simple.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.rust.reset.selective.auto.import": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -81,7 +82,42 @@
       <recent name="$PROJECT_DIR$/crates/async_jsonl/src" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Cargo.Run simple">
+    <configuration name="Run count" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="buildProfileId" value="dev" />
+      <option name="command" value="run --package async_jsonl_examples --example count" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <envs />
+      <option name="emulateTerminal" value="true" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Run simple" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="run --package async_jsonl_examples --example simple" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$" />
+      <envs />
+      <option name="emulateTerminal" value="true" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Test" type="CargoCommandRunConfiguration" factoryName="Cargo Command">
       <option name="command" value="test --package async-jsonl --lib tests" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
@@ -115,6 +151,12 @@
         <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Cargo.Run simple" />
+        <item itemvalue="Cargo.Run count" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="RustProjectSettings">
     <option name="toolchainHomeDirectory" value="$USER_HOME$/.cargo/bin" />
@@ -126,7 +168,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1748920200307</updated>
-      <workItem from="1748920201523" duration="1755000" />
+      <workItem from="1748920201523" duration="2819000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -136,7 +178,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748921188317</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="impl JsonDeser for serde value">
+      <option name="closed" value="true" />
+      <created>1748921992762</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1748921992762</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -144,6 +194,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />
-    <option name="LAST_COMMIT_MESSAGE" value="init" />
+    <MESSAGE value="impl JsonDeser for serde value" />
+    <option name="LAST_COMMIT_MESSAGE" value="impl JsonDeser for serde value" />
   </component>
 </project>
