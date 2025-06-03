@@ -39,9 +39,9 @@ impl<R: AsyncRead + Unpin> JsonlValueDeserialize<R> for Jsonl<R> {
 }
 
 /// Convenience function to create a JsonlIterator that specifically works with serde_json::Value
-pub fn jsonl_values<R: AsyncRead>(reader: R) -> impl Stream<Item = anyhow::Result<Value>>
+pub fn jsonl_values<R>(reader: R) -> impl Stream<Item = anyhow::Result<Value>>
 where
-    R: Unpin,
+    R: AsyncRead + Unpin,
 {
     Jsonl::new(reader).deserialize_values()
 }
