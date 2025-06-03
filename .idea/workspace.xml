@@ -5,18 +5,30 @@
   </component>
   <component name="CargoProjects">
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml">
-      <package file="$PROJECT_DIR$">
+      <package file="$PROJECT_DIR$/crates/async_jsonl">
+        <enabledFeature name="default" />
+      </package>
+      <package file="$PROJECT_DIR$/crates/async_jsonl_examples">
+        <enabledFeature name="default" />
+      </package>
+      <package file="$PROJECT_DIR$/crates/async_jsonl_tests">
         <enabledFeature name="default" />
       </package>
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b4d525a9-62e2-42f3-9d21-5fb8e2542b98" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/lib.rs" afterDir="false" />
+    <list default="true" id="b4d525a9-62e2-42f3-9d21-5fb8e2542b98" name="Changes" comment="init">
+      <change afterPath="$PROJECT_DIR$/crates/async_jsonl/Cargo.toml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/crates/async_jsonl/src/async_jsonl.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/crates/async_jsonl/src/value.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_examples/Cargo.toml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_examples/src/main.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_tests/Cargo.toml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_tests/tests/integration_tests.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/crates/async_jsonl/src/lib.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +36,13 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="RsBuildProfile:test" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Rust File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -56,6 +75,12 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/crates/async_jsonl_tests" />
+      <recent name="$PROJECT_DIR$/crates/async_jsonl/src" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Test" type="CargoCommandRunConfiguration" factoryName="Cargo Command">
       <option name="command" value="test --package async-jsonl --lib tests" />
@@ -101,11 +126,24 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1748920200307</updated>
-      <workItem from="1748920201523" duration="747000" />
+      <workItem from="1748920201523" duration="1755000" />
     </task>
+    <task id="LOCAL-00001" summary="init">
+      <option name="closed" value="true" />
+      <created>1748921188317</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1748921188317</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="init" />
+    <option name="LAST_COMMIT_MESSAGE" value="init" />
   </component>
 </project>

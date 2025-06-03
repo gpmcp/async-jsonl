@@ -5,11 +5,11 @@ use std::task::{Context, Poll};
 use tokio::io::{AsyncBufReadExt, AsyncRead, BufReader, Lines};
 
 /// Iterator to read JSONL file as raw JSON strings
-pub struct JsonlIterator<R> {
+pub struct Jsonl<R> {
     pub(crate) lines: Lines<BufReader<R>>,
 }
 
-impl<R: AsyncRead> JsonlIterator<R> {
+impl<R: AsyncRead> Jsonl<R> {
     pub fn new(file: R) -> Self {
         let reader = BufReader::new(file);
         Self {
@@ -18,7 +18,7 @@ impl<R: AsyncRead> JsonlIterator<R> {
     }
 }
 
-impl<R: AsyncRead + Unpin> Stream for JsonlIterator<R> {
+impl<R: AsyncRead + Unpin> Stream for Jsonl<R> {
     type Item = anyhow::Result<String>;
 
     fn poll_next(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Option<Self::Item>> {
@@ -47,7 +47,7 @@ pub trait JsonlDeserialize<R> {
         T: for<'a> Deserialize<'a>;
 }
 
-impl<R: AsyncRead + Unpin> JsonlDeserialize<R> for JsonlIterator<R> {
+impl<R: AsyncRead + Unpin> JsonlDeserialize<R> for Jsonl<R> {
     fn deserialize<T>(self) -> impl Stream<Item = anyhow::Result<T>>
     where
         T: for<'a> Deserialize<'a>,
