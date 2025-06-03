@@ -1,4 +1,4 @@
-use async_jsonl::{Jsonl, JsonlDeserialize, JsonlValueDeserialize};
+use async_jsonl::{Jsonl, JsonlDeserialize, JsonlReader, JsonlValueDeserialize};
 use futures::StreamExt;
 use serde::Deserialize;
 use serde_json::Value;
@@ -307,4 +307,92 @@ async fn test_complex_nested_values() {
     assert_eq!(values[1]["array"][1], "b");
     assert_eq!(values[1]["array"][2], "c");
     assert!(values[1]["null_val"].is_null());
+}
+
+#[tokio::test]
+async fn test_take_n_lines_deserialize() {
+    let data = r#"{"id": 1, "name": "Alice", "active": true}
+{"id": 2, "name": "Bob", "active": false}
+{"id": 3, "name": "Charlie", "active": true}
+{"id": 4, "name": "Diana", "active": false}
+{"id": 5, "name": "Eve", "active": true}
+"#;
+
+    let reader = Cursor::new(data.as_bytes());
+    let jsonl = Jsonl::new(reader);
+
+    // Test first_n with deserialize
+    let first_three = jsonl.first_n(3).await.unwrap();
+    let records: Vec<TestRecord> = first_three
+        .deserialize::<TestRecord>()
+        .collect::<Vec<_>>()
+        .await
+        .into_iter()
+        .collect::<Result<Vec<_>, _>>()
+        .unwrap();
+
+    assert_eq!(records.len(), 3);
+    assert_eq!(records[0].id, 1);
+    assert_eq!(records[0].name, "Alice");
+    assert_eq!(records[1].id, 2);
+    assert_eq!(records[1].name, "Bob");
+    assert_eq!(records[2].id, 3);
+    assert_eq!(records[2].name, "Charlie");
+}
+
+#[tokio::test]
+async fn test_take_n_lines_reverse_deserialize() {
+    let data = r#"{"id": 1, "name": "Alice", "active": true}
+{"id": 2, "name": "Bob", "active": false}
+{"id": 3, "name": "Charlie", "active": true}
+{"id": 4, "name": "Diana", "active": false}
+{"id": 5, "name": "Eve", "active": true}
+"#;
+
+    let reader = Cursor::new(data.as_bytes());
+    let jsonl = Jsonl::new(reader);
+
+    // Test last_n with deserialize
+    let last_two = jsonl.last_n(2).await.unwrap();
+    let records: Vec<TestRecord> = last_two
+        .deserialize::<TestRecord>()
+        .collect::<Vec<_>>()
+        .await
+        .into_iter()
+        .collect::<Result<Vec<_>, _>>()
+        .unwrap();
+
+    assert_eq!(records.len(), 2);
+    // last_n returns in reverse order (last line first)
+    assert_eq!(records[0].id, 5);
+    assert_eq!(records[0].name, "Eve");
+    assert_eq!(records[1].id, 4);
+    assert_eq!(records[1].name, "Diana");
+}
+
+#[tokio::test]
+async fn test_take_n_lines_deserialize_values() {
+    let data = r#"{"id": 1, "name": "Alice"}
+{"id": 2, "name": "Bob"}
+{"id": 3, "name": "Charlie"}
+"#;
+
+    let reader = Cursor::new(data.as_bytes());
+    let jsonl = Jsonl::new(reader);
+
+    // Test first_n with deserialize_values
+    let first_two = jsonl.first_n(2).await.unwrap();
+    let values: Vec<Value> = first_two
+        .deserialize_values()
+        .collect::<Vec<_>>()
+        .await
+        .into_iter()
+        .collect::<Result<Vec<_>, _>>()
+        .unwrap();
+
+    assert_eq!(values.len(), 2);
+    assert_eq!(values[0]["id"], 1);
+    assert_eq!(values[0]["name"], "Alice");
+    assert_eq!(values[1]["id"], 2);
+    assert_eq!(values[1]["name"], "Bob");
 }
