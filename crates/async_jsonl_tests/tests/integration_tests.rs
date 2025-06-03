@@ -1,4 +1,4 @@
-use async_jsonl::{Jsonl, JsonlDeserialize, JsonlValueDeserialize};
+use async_jsonl::{Jsonl, JsonlDeserialize, JsonlReader, JsonlValueDeserialize};
 use futures::StreamExt;
 use serde::Deserialize;
 use serde_json::Value;
@@ -310,54 +310,89 @@ async fn test_complex_nested_values() {
 }
 
 #[tokio::test]
-async fn test_line_counting() {
-    let data = r#"{"id": 1}
-{"id": 2}
-
-{"id": 3}
-
-
-{"id": 4}
+async fn test_take_n_lines_deserialize() {
+    let data = r#"{"id": 1, "name": "Alice", "active": true}
+{"id": 2, "name": "Bob", "active": false}
+{"id": 3, "name": "Charlie", "active": true}
+{"id": 4, "name": "Diana", "active": false}
+{"id": 5, "name": "Eve", "active": true}
 "#;
 
     let reader = Cursor::new(data.as_bytes());
     let jsonl = Jsonl::new(reader);
-    let count = jsonl.count_lines().await.unwrap();
-    assert_eq!(count, 4); // Should count only non-empty lines
+
+    // Test first_n with deserialize
+    let first_three = jsonl.first_n(3).await.unwrap();
+    let records: Vec<TestRecord> = first_three
+        .deserialize::<TestRecord>()
+        .collect::<Vec<_>>()
+        .await
+        .into_iter()
+        .collect::<Result<Vec<_>, _>>()
+        .unwrap();
+
+    assert_eq!(records.len(), 3);
+    assert_eq!(records[0].id, 1);
+    assert_eq!(records[0].name, "Alice");
+    assert_eq!(records[1].id, 2);
+    assert_eq!(records[1].name, "Bob");
+    assert_eq!(records[2].id, 3);
+    assert_eq!(records[2].name, "Charlie");
 }
 
 #[tokio::test]
-async fn test_file_line_counting_vs_manual_count() {
-    use tempfile::NamedTempFile;
-    use tokio::fs;
-
-    let temp_file = NamedTempFile::new().unwrap();
-    let temp_path = temp_file.path();
-
-    let data = r#"{"line": 1}
-{"line": 2}
-
-{"line": 3}
-{"line": 4}
-
-
-{"line": 5}
+async fn test_take_n_lines_reverse_deserialize() {
+    let data = r#"{"id": 1, "name": "Alice", "active": true}
+{"id": 2, "name": "Bob", "active": false}
+{"id": 3, "name": "Charlie", "active": true}
+{"id": 4, "name": "Diana", "active": false}
+{"id": 5, "name": "Eve", "active": true}
 "#;
 
-    fs::write(temp_path, data).await.unwrap();
+    let reader = Cursor::new(data.as_bytes());
+    let jsonl = Jsonl::new(reader);
 
-    // Count using the line counter
-    let counted_lines = Jsonl::from_path(temp_path)
+    // Test last_n with deserialize
+    let last_two = jsonl.last_n(2).await.unwrap();
+    let records: Vec<TestRecord> = last_two
+        .deserialize::<TestRecord>()
+        .collect::<Vec<_>>()
         .await
-        .unwrap()
-        .count_lines()
-        .await
+        .into_iter()
+        .collect::<Result<Vec<_>, _>>()
         .unwrap();
 
-    // Count manually by reading all lines
-    let jsonl = Jsonl::from_path(temp_path).await.unwrap();
-    let manual_count = jsonl.collect::<Vec<_>>().await.len();
+    assert_eq!(records.len(), 2);
+    // last_n returns in reverse order (last line first)
+    assert_eq!(records[0].id, 5);
+    assert_eq!(records[0].name, "Eve");
+    assert_eq!(records[1].id, 4);
+    assert_eq!(records[1].name, "Diana");
+}
 
-    assert_eq!(counted_lines, manual_count);
-    assert_eq!(counted_lines, 5);
+#[tokio::test]
+async fn test_take_n_lines_deserialize_values() {
+    let data = r#"{"id": 1, "name": "Alice"}
+{"id": 2, "name": "Bob"}
+{"id": 3, "name": "Charlie"}
+"#;
+
+    let reader = Cursor::new(data.as_bytes());
+    let jsonl = Jsonl::new(reader);
+
+    // Test first_n with deserialize_values
+    let first_two = jsonl.first_n(2).await.unwrap();
+    let values: Vec<Value> = first_two
+        .deserialize_values()
+        .collect::<Vec<_>>()
+        .await
+        .into_iter()
+        .collect::<Result<Vec<_>, _>>()
+        .unwrap();
+
+    assert_eq!(values.len(), 2);
+    assert_eq!(values[0]["id"], 1);
+    assert_eq!(values[0]["name"], "Alice");
+    assert_eq!(values[1]["id"], 2);
+    assert_eq!(values[1]["name"], "Bob");
 }
