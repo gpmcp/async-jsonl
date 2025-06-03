@@ -20,7 +20,18 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b4d525a9-62e2-42f3-9d21-5fb8e2542b98" name="Changes" comment="fix: clippy warns" />
+    <list default="true" id="b4d525a9-62e2-42f3-9d21-5fb8e2542b98" name="Changes" comment="fix: clippy warns">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/ci.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/ci.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crates/async_jsonl_ci/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/crates/async_jsonl_ci/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crates/async_jsonl_ci/src/jobs/mod.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/crates/async_jsonl_ci/src/jobs/release_drafter.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/crates/async_jsonl_ci/src/jobs/release_plz.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/crates/async_jsonl_ci/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/crates/async_jsonl_ci/src/lib.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crates/async_jsonl_ci/src/workflow.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/crates/async_jsonl_ci/tests/ci.rs" beforeDir="false" afterPath="$PROJECT_DIR$/crates/async_jsonl_ci/tests/ci.rs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,18 +48,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "ssddOnTop"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;ssddOnTop&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "git@github.com:ssddOnTop/async-jsonl.git",
-    "accountId": "cc59b8a1-a1e7-4305-9219-da1835db57bb"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:ssddOnTop/async-jsonl.git&quot;,
+    &quot;accountId&quot;: &quot;cc59b8a1-a1e7-4305-9219-da1835db57bb&quot;
   }
-}]]></component>
+}</component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="fia6Hf1k" />
   </component>
@@ -68,7 +79,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.rust.reset.selective.auto.import": "true",
-    "git-widget-placeholder": "fix/compilation-issues",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "/home/ssdd/RustroverProjects/async-jsonl",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",

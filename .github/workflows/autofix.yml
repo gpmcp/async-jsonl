@@ -15,52 +15,46 @@
 # ----------------------------- END WARNING -------------------------
 # -------------------------------------------------------------------
 
-name: Release-plz
+name: autofix.ci
+env:
+  RUSTFLAGS: -Dwarnings
 on:
+  pull_request:
+    types:
+    - opened
+    - synchronize
+    - reopened
+    branches:
+    - main
   push:
     branches:
     - main
-permissions:
-  contents: write
-  pull-requests: write
+    tags:
+    - v*
 jobs:
-  release-plz-release:
-    name: Release-plz release
+  lint:
+    name: Lint Fix
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
     steps:
-    - name: Checkout repository
+    - name: Checkout Code
       uses: actions/checkout@v4
+    - name: Setup Rust Toolchain
+      uses: actions-rust-lang/setup-rust-toolchain@v1
       with:
-        fetch-depth: '0'
-    - name: Install Rust toolchain
-      uses: dtolnay/rust-toolchain@stable
-    - name: Run release-plz
-      uses: release-plz/action@v0.5
-      with:
-        command: release
-      env:
-        CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-  release-plz-pr:
-    name: Release-plz PR
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: '0'
-    - name: Install Rust toolchain
-      uses: dtolnay/rust-toolchain@stable
-    - name: Run release-plz
-      uses: release-plz/action@v0.5
-      with:
-        command: release-pr
-      env:
-        CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        toolchain: nightly
+        components: clippy, rustfmt
+        cache: true
+        cache-directories: |-
+          ~/.cargo/registry
+          ~/.cargo/git
+          target
+    - name: Cargo Fmt
+      run: cargo +nightly fmt --all
+    - name: Cargo Clippy
+      run: cargo +nightly clippy --fix --allow-dirty --all-features --workspace -- -D warnings
+    - uses: autofix-ci/action@551dded8c6cc8a1054039c8bc0b8b48c51dfc6ef
     concurrency:
-      group: release-plz-${{ github.ref }}
+      group: autofix-${{github.ref}}
       cancel-in-progress: false
