@@ -82,7 +82,7 @@ jobs:
       pull-requests: write
       packages: write
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
     steps:
     - name: Checkout Code
@@ -91,7 +91,6 @@ jobs:
       uses: release-plz/action@v0.5
       with:
         command: release
-        token: ${{ secrets.GITHUB_TOKEN }}
     concurrency:
       group: release-${{github.ref}}
       cancel-in-progress: false
@@ -107,7 +106,7 @@ jobs:
       pull-requests: write
       packages: write
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
     steps:
     - name: Checkout Code
@@ -116,7 +115,6 @@ jobs:
       uses: release-plz/action@v0.5
       with:
         command: release-pr
-        token: ${{ secrets.GITHUB_TOKEN }}
     concurrency:
       group: release-${{github.ref}}
       cancel-in-progress: false
