@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0](https://github.com/gpmcp/async-jsonl/compare/v0.2.0...v0.3.0) - 2025-06-03
+
+### Added
+
+- add methods to read first and last n lines from JSONL files ([#7](https://github.com/gpmcp/async-jsonl/pull/7))
+
 ## [0.2.0](https://github.com/gpmcp/async-jsonl/compare/v0.1.0...v0.2.0) - 2025-06-03
 
 ### Fixed
