@@ -2,6 +2,7 @@
 name = "async-jsonl"
 version = "0.1.0"
 edition = "2024"
+license = "Apache-2.0"
 
 [dependencies]
 tokio = { version = "1.45.1", default-features = false, features = ["fs", "io-util"] }
