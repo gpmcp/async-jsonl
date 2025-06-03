@@ -5,6 +5,9 @@ edition = "2021"
 license = "Apache-2.0"
 description = "An efficient async Rust library for reading and processing JSON Lines (JSONL) files using Tokio streams."
 authors = ["Sandipsinh Rathod <sandipsinh@gpmcp.com>"]
+repository = "https://github.com/gpmcp/async-jsonl"
+keywords = ["jsonl", "json", "async", "tokio", "streaming"]
+categories = ["asynchronous", "parser-implementations", "data-structures"]
 
 [dependencies]
 tokio = { version = "1.45.1", default-features = false, features = ["fs", "io-util"] }
