@@ -8,6 +8,9 @@
       <package file="$PROJECT_DIR$/crates/async_jsonl">
         <enabledFeature name="default" />
       </package>
+      <package file="$PROJECT_DIR$/crates/async_jsonl_ci">
+        <enabledFeature name="default" />
+      </package>
       <package file="$PROJECT_DIR$/crates/async_jsonl_examples">
         <enabledFeature name="default" />
       </package>
@@ -17,9 +20,21 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b4d525a9-62e2-42f3-9d21-5fb8e2542b98" name="Changes" comment="impl JsonDeser for serde value">
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    <list default="true" id="b4d525a9-62e2-42f3-9d21-5fb8e2542b98" name="Changes" comment="update readme">
+      <change afterPath="$PROJECT_DIR$/.github/contribution.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/release-drafter.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/workflows/ci.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/workflows/release-drafter.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/workflows/release-plz.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_ci/Cargo.toml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_ci/src/jobs/mod.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_ci/src/jobs/release_drafter.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_ci/src/jobs/release_plz.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_ci/src/lib.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_ci/src/workflow.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_ci/tests/ci.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,27 +75,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Cargo.Run count.executor&quot;: &quot;Run&quot;,
-    &quot;Cargo.Run simple.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.rust.reset.selective.auto.import&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;org.rust.cargo.project.model.PROJECT_DISCOVERY&quot;: &quot;true&quot;,
-    &quot;org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon&quot;: &quot;&quot;,
-    &quot;org.rust.first.attach.projects&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Cargo.Run count.executor": "Run",
+    "Cargo.Run simple.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.rust.reset.selective.auto.import": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/ssdd/RustroverProjects/async-jsonl",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
+    "org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon": "",
+    "org.rust.first.attach.projects": "true",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/crates/async_jsonl_ci/src" />
+      <recent name="$PROJECT_DIR$/crates/async_jsonl_ci" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/crates/async_jsonl_tests" />
       <recent name="$PROJECT_DIR$/crates/async_jsonl/src" />
@@ -174,7 +195,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748921992762</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="update readme">
+      <option name="closed" value="true" />
+      <created>1748926011195</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1748926011195</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -183,6 +212,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />
     <MESSAGE value="impl JsonDeser for serde value" />
-    <option name="LAST_COMMIT_MESSAGE" value="impl JsonDeser for serde value" />
+    <MESSAGE value="update readme" />
+    <option name="LAST_COMMIT_MESSAGE" value="update readme" />
   </component>
 </project>
