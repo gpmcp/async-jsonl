@@ -1,4 +1,4 @@
-use async_jsonl::Jsonl;
+use async_jsonl::{Jsonl, JsonlReader};
 use futures::StreamExt;
 use std::io::Cursor;
 use tokio::fs::File;
@@ -15,7 +15,7 @@ async fn test_get_rev_n_with_cursor() {
     let jsonl = Jsonl::new(cursor);
 
     let rev_jsonl = jsonl
-        .get_rev_n(3)
+        .last_n(3)
         .await
         .expect("Failed to create reverse iterator");
 
@@ -56,7 +56,7 @@ async fn test_get_rev_n_with_file() {
         .await
         .expect("Failed to open file");
     let rev_jsonl = jsonl
-        .get_rev_n(3)
+        .last_n(3)
         .await
         .expect("Failed to create reverse iterator");
 
@@ -82,7 +82,7 @@ async fn test_get_rev_n_empty_file() {
     let jsonl = Jsonl::new(cursor);
 
     let rev_jsonl = jsonl
-        .get_rev_n(5)
+        .last_n(5)
         .await
         .expect("Failed to create reverse iterator");
     let results: Vec<_> = rev_jsonl.collect().await;
@@ -99,7 +99,7 @@ async fn test_get_rev_n_single_line() {
     let jsonl = Jsonl::new(cursor);
 
     let rev_jsonl = jsonl
-        .get_rev_n(1)
+        .last_n(1)
         .await
         .expect("Failed to create reverse iterator");
     let results: Vec<_> = rev_jsonl.collect().await;
@@ -126,7 +126,7 @@ async fn test_get_rev_n_with_empty_lines() {
     let jsonl = Jsonl::new(cursor);
 
     let rev_jsonl = jsonl
-        .get_rev_n(3)
+        .last_n(3)
         .await
         .expect("Failed to create reverse iterator");
     let results: Vec<_> = rev_jsonl.collect().await;
@@ -154,7 +154,7 @@ async fn test_get_n_lines() {
     let cursor = Cursor::new(data.as_bytes());
     let jsonl = Jsonl::new(cursor);
 
-    let first_3 = jsonl.get_n(3);
+    let first_3 = jsonl.first_n(3).await.unwrap();
     let results: Vec<_> = first_3.collect().await;
 
     assert_eq!(results.len(), 3);
@@ -178,7 +178,7 @@ async fn test_compare_forward_and_reverse() {
     // Forward reading first 3
     let cursor_forward = Cursor::new(data.as_bytes());
     let jsonl_forward = Jsonl::new(cursor_forward);
-    let forward_stream = jsonl_forward.get_n(3);
+    let forward_stream = jsonl_forward.first_n(3).await.unwrap();
     let forward_results: Vec<_> = forward_stream.collect().await;
     let forward_lines: Vec<String> = forward_results.into_iter().map(|r| r.unwrap()).collect();
 
@@ -186,7 +186,7 @@ async fn test_compare_forward_and_reverse() {
     let cursor_reverse = Cursor::new(data.as_bytes());
     let jsonl_reverse = Jsonl::new(cursor_reverse);
     let rev_jsonl = jsonl_reverse
-        .get_rev_n(3)
+        .last_n(3)
         .await
         .expect("Failed to create reverse iterator");
     let reverse_results: Vec<_> = rev_jsonl.collect().await;

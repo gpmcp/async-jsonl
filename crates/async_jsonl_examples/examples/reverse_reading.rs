@@ -3,7 +3,7 @@
 //! This example shows how to use the .get_rev_n() method to read JSONL files
 //! from end to beginning, similar to the Unix `tail` command.
 
-use async_jsonl::Jsonl;
+use async_jsonl::{Jsonl, JsonlReader};
 use futures::StreamExt;
 use std::io::Cursor;
 use tokio::fs::File;
@@ -26,7 +26,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let jsonl = Jsonl::new(cursor);
 
     println!("Reading last 5 lines in reverse order:");
-    let rev_jsonl = jsonl.get_rev_n(5).await?;
+    let rev_jsonl = jsonl.last_n(5).await?;
 
     // Collect results and iterate
     let results: Vec<_> = rev_jsonl.collect().await;
@@ -51,7 +51,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Read the file in reverse
     let jsonl_file = Jsonl::from_path(temp_file_path).await?;
-    let rev_jsonl_file = jsonl_file.get_rev_n(3).await?;
+    let rev_jsonl_file = jsonl_file.last_n(3).await?;
 
     println!("Reading file in reverse order (last 3 lines):");
     let results: Vec<_> = rev_jsonl_file.collect().await;
@@ -86,7 +86,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     println!("\nReverse reading (last 5 lines):");
-    let rev_jsonl_compare = jsonl_reverse.get_rev_n(5).await?;
+    let rev_jsonl_compare = jsonl_reverse.last_n(5).await?;
     let reverse_results: Vec<_> = rev_jsonl_compare.collect().await;
     for (i, result) in reverse_results.iter().enumerate() {
         if let Ok(line) = result {
