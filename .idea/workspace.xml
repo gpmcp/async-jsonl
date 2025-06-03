@@ -20,7 +20,7 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b4d525a9-62e2-42f3-9d21-5fb8e2542b98" name="Changes" comment="fix: compilation errors" />
+    <list default="true" id="b4d525a9-62e2-42f3-9d21-5fb8e2542b98" name="Changes" comment="fix: clippy warns" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -68,7 +68,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.rust.reset.selective.auto.import": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "fix/compilation-issues",
     "last_opened_file_path": "/home/ssdd/RustroverProjects/async-jsonl",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -212,7 +212,23 @@
       <option name="project" value="LOCAL" />
       <updated>1748927768348</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="fix: replace GITHUB_TOKEN to GH_TOKEN">
+      <option name="closed" value="true" />
+      <created>1748927865604</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1748927865604</updated>
+    </task>
+    <task id="LOCAL-00008" summary="fix: clippy warns">
+      <option name="closed" value="true" />
+      <created>1748927975319</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1748927975319</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -225,6 +241,8 @@
     <MESSAGE value="feat: ability to auto release" />
     <MESSAGE value="chore: fmt" />
     <MESSAGE value="fix: compilation errors" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: compilation errors" />
+    <MESSAGE value="fix: replace GITHUB_TOKEN to GH_TOKEN" />
+    <MESSAGE value="fix: clippy warns" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: clippy warns" />
   </component>
 </project>
