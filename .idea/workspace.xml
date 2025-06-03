@@ -20,22 +20,7 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b4d525a9-62e2-42f3-9d21-5fb8e2542b98" name="Changes" comment="update readme">
-      <change afterPath="$PROJECT_DIR$/.github/contribution.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.github/release-drafter.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.github/workflows/ci.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.github/workflows/release-drafter.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.github/workflows/release-plz.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_ci/Cargo.toml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_ci/src/jobs/mod.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_ci/src/jobs/release_drafter.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_ci/src/jobs/release_plz.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_ci/src/lib.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_ci/src/workflow.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/crates/async_jsonl_ci/tests/ci.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
-    </list>
+    <list default="true" id="b4d525a9-62e2-42f3-9d21-5fb8e2542b98" name="Changes" comment="fix: compilation errors" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -203,7 +188,31 @@
       <option name="project" value="LOCAL" />
       <updated>1748926011195</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="feat: ability to auto release">
+      <option name="closed" value="true" />
+      <created>1748927557781</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1748927557781</updated>
+    </task>
+    <task id="LOCAL-00005" summary="chore: fmt">
+      <option name="closed" value="true" />
+      <created>1748927573359</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1748927573359</updated>
+    </task>
+    <task id="LOCAL-00006" summary="fix: compilation errors">
+      <option name="closed" value="true" />
+      <created>1748927768348</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1748927768348</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -213,6 +222,9 @@
     <MESSAGE value="init" />
     <MESSAGE value="impl JsonDeser for serde value" />
     <MESSAGE value="update readme" />
-    <option name="LAST_COMMIT_MESSAGE" value="update readme" />
+    <MESSAGE value="feat: ability to auto release" />
+    <MESSAGE value="chore: fmt" />
+    <MESSAGE value="fix: compilation errors" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: compilation errors" />
   </component>
 </project>

@@ -44,7 +44,7 @@ pub fn create_release_plz_release_job() -> Job {
             Step::uses("release-plz", "action", "v0.5")
                 .name("Run release-plz")
                 .with(("command", "release"))
-                .env(("GITHUB_TOKEN", "${{ secrets.GITHUB_TOKEN }}"))
+                .env(("GITHUB_TOKEN", "${{ secrets.GH_TOKEN }}"))
                 .env((
                     "CARGO_REGISTRY_TOKEN",
                     "${{ secrets.CARGO_REGISTRY_TOKEN }}",
@@ -77,7 +77,7 @@ pub fn create_release_plz_pr_job() -> Job {
             Step::uses("release-plz", "action", "v0.5")
                 .name("Run release-plz")
                 .with(("command", "release-pr"))
-                .env(("GITHUB_TOKEN", "${{ secrets.GITHUB_TOKEN }}"))
+                .env(("GITHUB_TOKEN", "${{ secrets.GH_TOKEN }}"))
                 .env((
                     "CARGO_REGISTRY_TOKEN",
                     "${{ secrets.CARGO_REGISTRY_TOKEN }}",

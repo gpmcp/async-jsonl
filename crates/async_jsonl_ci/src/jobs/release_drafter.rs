@@ -37,7 +37,7 @@ pub fn create_update_release_draft_job() -> Job {
         .runs_on("ubuntu-latest")
         .add_step(
             Step::uses("release-drafter", "release-drafter", "v6")
-                .env(("GITHUB_TOKEN", "${{ secrets.GITHUB_TOKEN }}"))
+                .env(("GITHUB_TOKEN", "${{ secrets.GH_TOKEN }}"))
                 .add_with(("config-name", "release-drafter.yml")),
         )
 }
