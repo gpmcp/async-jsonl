@@ -50,9 +50,6 @@ name = "async_jsonl_ci"
 version = "0.1.0"
 dependencies = [
  "gh-workflow-tailcall",
- "indexmap",
- "serde",
- "serde_json",
 ]
 
 [[package]]
