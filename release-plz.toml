@@ -31,6 +31,14 @@ commit_parsers = [
     { message = "^revert", group = "⏪ Revert" },
 ]
 
+# Filter out commits
+filter_unconventional = true
+# Protect breaking changes
+protect_breaking_commits = false
+# Split commits
+split_commits = false
+# Sort commits
+sort_commits = "newest"
 
 # Don't release CI, tests, or examples crates
 [[package]]
@@ -47,12 +55,3 @@ publish = false
 name = "async_jsonl_examples"
 release = false
 publish = false
-
-# Filter out commits 
-filter_unconventional = true
-# Protect breaking changes
-protect_breaking_commits = false
-# Split commits
-split_commits = false
-# Sort commits
-sort_commits = "newest"
