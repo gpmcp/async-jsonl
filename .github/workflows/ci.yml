@@ -91,6 +91,7 @@ jobs:
       uses: release-plz/action@v0.5
       with:
         command: release
+        token: ${{ secrets.GITHUB_TOKEN }}
     concurrency:
       group: release-${{github.ref}}
       cancel-in-progress: false
@@ -115,6 +116,7 @@ jobs:
       uses: release-plz/action@v0.5
       with:
         command: release-pr
+        token: ${{ secrets.GITHUB_TOKEN }}
     concurrency:
       group: release-${{github.ref}}
       cancel-in-progress: false

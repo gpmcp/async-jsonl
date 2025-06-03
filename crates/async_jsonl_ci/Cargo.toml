@@ -4,4 +4,4 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-gh-workflow-tailcall = { version = "0.5.2" }
+gh-workflow-tailcall = { version = "0.5.2",git = "https://github.com/tailcallhq/gh-workflow/", rev = "7df4dc0806bb267695abeafe9206ab09054152a6" }
