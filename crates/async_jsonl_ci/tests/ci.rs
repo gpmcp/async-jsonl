@@ -1,16 +1,10 @@
-use async_jsonl_ci::workflow;
+use gh_workflow_tailcall::StandardWorkflow;
 
 #[test]
 fn generate() {
-    workflow::generate_ci_workflow();
-}
-
-#[test]
-fn test_release_drafter() {
-    workflow::generate_release_drafter_workflow();
-}
-
-#[test]
-fn test_release_plz() {
-    workflow::generate_release_plz_workflow();
+    StandardWorkflow::default()
+        .auto_release(true)
+        .auto_fix(true)
+        .generate()
+        .unwrap();
 }

@@ -70,5 +70,51 @@ jobs:
       run: cargo +nightly fmt --all --check
     - name: Cargo Clippy
       run: cargo +nightly clippy --all-features --workspace -- -D warnings
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  release:
+    needs:
+    - build
+    - lint
+    if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+    name: Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      packages: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+    - name: Release Plz
+      uses: release-plz/action@v0.5
+      with:
+        command: release
+    concurrency:
+      group: release-${{github.ref}}
+      cancel-in-progress: false
+  release-pr:
+    needs:
+    - build
+    - lint
+    if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+    name: Release Pr
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      packages: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+    - name: Release Plz
+      uses: release-plz/action@v0.5
+      with:
+        command: release-pr
+    concurrency:
+      group: release-${{github.ref}}
+      cancel-in-progress: false
