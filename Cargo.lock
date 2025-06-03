@@ -316,7 +316,8 @@ dependencies = [
 [[package]]
 name = "gh-workflow"
 version = "0.6.0"
-source = "git+https://github.com/tailcallhq/gh-workflow/?rev=ec809ad6620fc6a599152495eee28216f731afd1#ec809ad6620fc6a599152495eee28216f731afd1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d3f151d05aed873a8e507af24255923c1c7a5233040e7757ea6bb0f3930893ee"
 dependencies = [
  "async-trait",
  "derive_more",
@@ -333,7 +334,8 @@ dependencies = [
 [[package]]
 name = "gh-workflow-macros"
 version = "0.6.0"
-source = "git+https://github.com/tailcallhq/gh-workflow/?rev=ec809ad6620fc6a599152495eee28216f731afd1#ec809ad6620fc6a599152495eee28216f731afd1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c700d433184ad5a1547ab7e619704a6aa15e2428bdb0dfe78e18aa893f17e2b9"
 dependencies = [
  "heck",
  "quote",
@@ -343,7 +345,8 @@ dependencies = [
 [[package]]
 name = "gh-workflow-tailcall"
 version = "0.5.2"
-source = "git+https://github.com/tailcallhq/gh-workflow/?rev=ec809ad6620fc6a599152495eee28216f731afd1#ec809ad6620fc6a599152495eee28216f731afd1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b739e49a3a29d7f3638eeee8d3ee6c0db4cbbb02070579fd9a20430614ec95f9"
 dependencies = [
  "derive_setters",
  "gh-workflow",
