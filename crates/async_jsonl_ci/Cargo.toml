@@ -4,4 +4,4 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-gh-workflow-tailcall = { version = "0.5.2" }
+gh-workflow-tailcall = { git = "https://github.com/ssddOnTop/gh-workflow/", branch = "fix/change-gh-token-name-from-env" }
