@@ -101,13 +101,8 @@ async fn main() -> anyhow::Result<()> {
 {"name": "Bob", "age": 25}"#;
     let reader = Cursor::new(data.as_bytes());
     
-    // Option 1: Using the trait
     let jsonl = Jsonl::new(reader);
     let values = jsonl.deserialize_values();
-    
-    // Option 2: Using the convenience function
-    let reader2 = Cursor::new(data.as_bytes());
-    let values = jsonl_values(reader2);
     
     let results: Vec<Value> = values
         .collect::<Vec<_>>()
@@ -126,7 +121,7 @@ async fn main() -> anyhow::Result<()> {
 ### Reading from Memory
 
 ```rust
-use async_jsonl::{Jsonl, JsonlDeserialize};
+use async_jsonl::Jsonl;
 use futures::StreamExt;
 use std::io::Cursor;
 
@@ -149,13 +144,13 @@ async fn main() -> anyhow::Result<()> {
 ### Counting Lines
 
 ```rust
-use async_jsonl::Jsonl;
+use async_jsonl::{Jsonl,JsonlReader};
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     // Count lines efficiently without full deserialization
     let jsonl = Jsonl::from_path("large_file.jsonl").await?;
-    let count = jsonl.count_lines().await?;
+    let count = jsonl.count().await?;
     
     println!("File contains {} non-empty lines", count);
     

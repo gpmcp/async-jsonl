@@ -1,6 +1,6 @@
 use crate::take_n::{TakeNLines, TakeNLinesReverse};
 use crate::{Jsonl, JsonlReader};
-use futures::Stream;
+use futures::{Stream, StreamExt};
 use std::pin::Pin;
 use std::task::{Context, Poll};
 use tokio::fs::File;
@@ -17,6 +17,10 @@ impl<R: AsyncRead + AsyncSeek + Unpin + Sync + Send> JsonlReader for Jsonl<R> {
 
     async fn last_n(self, n: usize) -> anyhow::Result<Self::NLinesRev> {
         self.get_rev_n(n).await
+    }
+
+    async fn count(self) -> usize {
+        StreamExt::count(self).await
     }
 }
 
