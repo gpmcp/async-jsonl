@@ -159,6 +159,9 @@ pub trait JsonlReader: JsonlDeserialize + JsonlValueDeserialize + Stream + Send 
     /// }
     /// ```
     async fn last_n(self, n: usize) -> anyhow::Result<Self::NLinesRev>;
+
+    /// Count the total number of lines in the JSONL stream.
+    async fn count(self) -> usize;
 }
 
 /// Extension trait to add deserialization capabilities to JSONL readers.

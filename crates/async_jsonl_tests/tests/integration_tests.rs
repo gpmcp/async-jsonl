@@ -283,6 +283,117 @@ invalid_json_line
 }
 
 #[tokio::test]
+async fn test_count_empty_file() {
+    let data = "";
+
+    let reader = Cursor::new(data.as_bytes());
+    let jsonl = Jsonl::new(reader);
+
+    let count = JsonlReader::count(jsonl).await;
+    assert_eq!(count, 0);
+}
+
+#[tokio::test]
+async fn test_count_single_line() {
+    let data = r#"{"value": 42}"#;
+
+    let reader = Cursor::new(data.as_bytes());
+    let jsonl = Jsonl::new(reader);
+
+    let count = JsonlReader::count(jsonl).await;
+    assert_eq!(count, 1);
+}
+
+#[tokio::test]
+async fn test_count_multiple_lines() {
+    let data = r#"{"id": 1, "name": "Alice", "active": true}
+{"id": 2, "name": "Bob", "active": false}
+{"id": 3, "name": "Charlie", "active": true}
+{"id": 4, "name": "Diana", "active": false}
+{"id": 5, "name": "Eve", "active": true}
+"#;
+
+    let reader = Cursor::new(data.as_bytes());
+    let jsonl = Jsonl::new(reader);
+
+    let count = JsonlReader::count(jsonl).await;
+    assert_eq!(count, 5);
+}
+
+#[tokio::test]
+async fn test_count_with_empty_lines() {
+    let data = r#"{"value": 1}
+
+{"value": 2}
+
+
+{"value": 3}
+
+"#;
+
+    let reader = Cursor::new(data.as_bytes());
+    let jsonl = Jsonl::new(reader);
+
+    let count = JsonlReader::count(jsonl).await;
+    // Empty lines should be filtered out, so only 3 valid lines
+    assert_eq!(count, 3);
+}
+
+#[tokio::test]
+async fn test_count_large_file() {
+    // Create a larger test file with 1000 lines
+    let mut data = String::new();
+    for i in 0..1000 {
+        data.push_str(&format!("{{\"id\": {}, \"value\": \"item_{}\"}}\n", i, i));
+    }
+
+    let reader = Cursor::new(data.as_bytes());
+    let jsonl = Jsonl::new(reader);
+
+    let count = JsonlReader::count(jsonl).await;
+    assert_eq!(count, 1000);
+}
+
+#[tokio::test]
+async fn test_count_with_malformed_lines() {
+    // Count should include all lines, even if they contain invalid JSON
+    // because count operates at the line level, not JSON parsing level
+    let data = r#"{"valid": 1}
+invalid_json_line
+{"valid": 2}
+another_invalid_line
+{"valid": 3}
+"#;
+
+    let reader = Cursor::new(data.as_bytes());
+    let jsonl = Jsonl::new(reader);
+
+    let count = JsonlReader::count(jsonl).await;
+    assert_eq!(count, 5);
+}
+
+#[tokio::test]
+async fn test_count_consistency_with_streaming() {
+    let data = r#"{"id": 1, "name": "Alice"}
+{"id": 2, "name": "Bob"}
+{"id": 3, "name": "Charlie"}
+"#;
+
+    // Count using the count method
+    let reader1 = Cursor::new(data.as_bytes());
+    let jsonl1 = Jsonl::new(reader1);
+    let count_method_result = JsonlReader::count(jsonl1).await;
+
+    // Count by manually consuming the stream
+    let reader2 = Cursor::new(data.as_bytes());
+    let jsonl2 = Jsonl::new(reader2);
+    let manual_count = jsonl2.collect::<Vec<_>>().await.len();
+
+    assert_eq!(count_method_result, manual_count);
+    assert_eq!(count_method_result, 3);
+}
+
+#[tokio::test]
 async fn test_complex_nested_values() {
     let data = r#"{"nested": {"inner": [1, 2, 3]}, "top": "level"}
 {"array": ["a", "b", "c"], "null_val": null}
