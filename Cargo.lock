@@ -25,7 +25,7 @@ checksum = "e16d2d3311acee920a9eb8d33b8cbc1787ce4a264e85f964c2404b969bdcd487"
 
 [[package]]
 name = "async-jsonl"
-version = "0.3.1"
+version = "0.4.0"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -324,8 +324,7 @@ dependencies = [
 [[package]]
 name = "gh-workflow"
 version = "0.6.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d3f151d05aed873a8e507af24255923c1c7a5233040e7757ea6bb0f3930893ee"
+source = "git+https://github.com/ssddOnTop/gh-workflow?branch=fix%2Fchange-gh-token-name-from-env#ec809ad6620fc6a599152495eee28216f731afd1"
 dependencies = [
  "async-trait",
  "derive_more",
@@ -342,8 +341,7 @@ dependencies = [
 [[package]]
 name = "gh-workflow-macros"
 version = "0.6.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c700d433184ad5a1547ab7e619704a6aa15e2428bdb0dfe78e18aa893f17e2b9"
+source = "git+https://github.com/ssddOnTop/gh-workflow?branch=fix%2Fchange-gh-token-name-from-env#ec809ad6620fc6a599152495eee28216f731afd1"
 dependencies = [
  "heck",
  "quote",
@@ -353,8 +351,7 @@ dependencies = [
 [[package]]
 name = "gh-workflow-tailcall"
 version = "0.5.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b739e49a3a29d7f3638eeee8d3ee6c0db4cbbb02070579fd9a20430614ec95f9"
+source = "git+https://github.com/ssddOnTop/gh-workflow?branch=fix%2Fchange-gh-token-name-from-env#ec809ad6620fc6a599152495eee28216f731afd1"
 dependencies = [
  "derive_setters",
  "gh-workflow",
