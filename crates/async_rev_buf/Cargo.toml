@@ -10,3 +10,10 @@ tokio = { version = "1.45.1", features = ["io-util", "macros", "rt-multi-thread"
 [dev-dependencies]
 tempfile = "3.0"
 tokio = { version = "1.45.1", features = ["fs"] }
+criterion = { version = "0.6.0", features = ["html_reports", "async_tokio"] }
+rev_buf_reader = "0.3"
+
+[[bench]]
+name = "comparison"
+harness = false
+
