@@ -2,7 +2,6 @@ use async_rev_buf::RevBufReader;
 use std::io::Write;
 use tempfile::NamedTempFile;
 use tokio::fs::File;
-use tokio::io::AsyncBufReadExt;
 
 #[tokio::test]
 async fn test_large_file() {
