@@ -2,9 +2,14 @@
 # Enable workspace mode to handle the multi-crate workspace
 allow_dirty = true
 
-# Configure specifically for the async-jsonl main crate
 [[package]]
 name = "async-jsonl"
+release = true
+publish = true
+semver_check = true
+
+[[package]]
+name = "async-rev-buf"
 release = true
 publish = true
 semver_check = true

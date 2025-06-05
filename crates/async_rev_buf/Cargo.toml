@@ -1,0 +1,8 @@
+[package]
+name = "async-rev-buf"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+pin-project-lite = "0.2.16"
+tokio = { version = "1.45.1", features = ["io-util", "macros", "rt-multi-thread"] }
