@@ -28,7 +28,7 @@ where
     /// # Examples
     ///
     /// ```no_run
-    /// # use async_jsonl_rev_buf::RevBufReader;
+    /// # use async_rev_buf::RevBufReader;
     /// # use std::io::Cursor;
     /// # #[tokio::main]
     /// # async fn main() -> Result<(), Box<dyn std::error::Error>> {
