@@ -1,9 +1,9 @@
+use crate::{Lines, DEFAULT_BUF_SIZE};
 use pin_project_lite::pin_project;
-use std::io::{SeekFrom, Result as IoResult};
+use std::io::{Result as IoResult, SeekFrom};
 use std::pin::Pin;
 use std::task::{Context, Poll};
 use tokio::io::{AsyncRead, AsyncReadExt, AsyncSeek, AsyncSeekExt, ReadBuf};
-use crate::{DEFAULT_BUF_SIZE, Lines};
 
 pin_project! {
     /// A buffered reader that reads lines in reverse order from the end of the input.
@@ -19,8 +19,6 @@ pin_project! {
         at_start: bool,    // Whether we've reached the start of the file
     }
 }
-
-
 
 impl<R: AsyncRead> RevBufReader<R> {
     /// Creates a new `BufReader` with a default buffer capacity. The default is currently 8 KB,
@@ -76,8 +74,6 @@ impl<R: AsyncRead> RevBufReader<R> {
     pub fn buffer(&self) -> &[u8] {
         &self.buf[self.pos..self.cap]
     }
-
-
 }
 
 impl<R: AsyncRead + AsyncSeek + Unpin> RevBufReader<R> {
@@ -112,25 +108,25 @@ impl<R: AsyncRead + AsyncSeek + Unpin> RevBufReader<R> {
     pub async fn poll_next_line_reverse(&mut self) -> IoResult<Option<String>> {
         // Initialize once
         self.initialize().await?;
-        
+
         let file_size = self.file_size.unwrap();
         if file_size == 0 {
             return Ok(None);
         }
-        
+
         // If this is the first call, position at end of file
         if self.file_pos.is_none() {
             self.file_pos = Some(file_size);
         }
-        
+
         let mut accumulated_data = Vec::new();
         let mut current_end = self.file_pos.unwrap();
-        
+
         while current_end > 0 {
             // Calculate chunk size
             let chunk_size = std::cmp::min(self.buf.len() as u64, current_end) as usize;
             let chunk_start = current_end - chunk_size as u64;
-            
+
             // Read chunk
             self.inner.seek(SeekFrom::Start(chunk_start)).await?;
             let mut chunk = vec![0u8; chunk_size];
@@ -142,49 +138,49 @@ impl<R: AsyncRead + AsyncSeek + Unpin> RevBufReader<R> {
                 }
             }
             chunk.truncate(total_read);
-            
+
             // Prepend to accumulated data
             let mut new_data = chunk;
             new_data.extend_from_slice(&accumulated_data);
             accumulated_data = new_data;
-            
+
             // Look for lines in accumulated data
             let text = String::from_utf8_lossy(&accumulated_data);
             let lines: Vec<&str> = text.lines().collect();
-            
+
             if lines.len() > 1 || (lines.len() == 1 && chunk_start == 0) {
                 // We have at least one complete line
                 let last_line = lines[lines.len() - 1].trim();
-                
+
                 if !last_line.is_empty() {
                     // Calculate where this line ends in the file
                     if lines.len() > 1 {
                         // There are more lines before this one
                         let before_last = &lines[0..lines.len() - 1];
                         let before_text = before_last.join("\n") + "\n";
-                        self.file_pos = Some(chunk_start + before_text.as_bytes().len() as u64);
+                        self.file_pos = Some(chunk_start + before_text.len() as u64);
                     } else {
                         // This is the only/first line
                         self.file_pos = Some(chunk_start);
                     }
-                    
+
                     return Ok(Some(last_line.to_string()));
                 }
-                
+
                 // Empty line, continue to previous
                 if lines.len() > 1 {
                     let before_last = &lines[0..lines.len() - 1];
                     let before_text = before_last.join("\n") + "\n";
-                    self.file_pos = Some(chunk_start + before_text.as_bytes().len() as u64);
+                    self.file_pos = Some(chunk_start + before_text.len() as u64);
                     accumulated_data.clear();
                     current_end = self.file_pos.unwrap();
                     continue;
                 }
             }
-            
+
             // Need more data
             current_end = chunk_start;
-            
+
             if chunk_start == 0 {
                 // We've reached the beginning
                 if !accumulated_data.is_empty() {
@@ -198,10 +194,10 @@ impl<R: AsyncRead + AsyncSeek + Unpin> RevBufReader<R> {
                 return Ok(None);
             }
         }
-        
+
         Ok(None)
     }
-    
+
     /// Returns a stream of lines read in reverse order
     pub fn lines(self) -> Lines<Self>
     where
