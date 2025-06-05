@@ -13,3 +13,9 @@ name = "async-rev-buf"
 release = true
 publish = true
 semver_check = true
+
+# Don't release CI, tests, or examples crates
+[[package]]
+name = "async_jsonl_ci"
+release = false
+publish = false
