@@ -11,11 +11,11 @@ categories = ["asynchronous", "filesystem", "parsing"]
 
 [dependencies]
 pin-project-lite = "0.2.16"
-tokio = { version = "1.45.1", default-features = false }
+tokio = { version = "1.45.1", default-features = false,features = ["io-util"] }
 
 [dev-dependencies]
 tempfile = "3.0"
-tokio = { version = "1.45.1", features = ["fs", "rt", "rt-multi-thread"] }
+tokio = { version = "1.45.1", features = ["full"] }
 criterion = { version = "0.6.0", features = ["html_reports", "async_tokio"] }
 rev_buf_reader = "0.3"
 tokio-rev-lines = "0.2"
