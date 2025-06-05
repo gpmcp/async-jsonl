@@ -6,6 +6,8 @@ use std::io::{BufRead, Cursor};
 use tokio::io::AsyncBufReadExt;
 use tokio::io::BufReader;
 use tokio::runtime::Runtime;
+use tokio_rev_lines::RevLines;
+use futures_util::{pin_mut, StreamExt};
 
 fn create_test_data(num_lines: usize) -> String {
     (0..num_lines)
@@ -83,6 +85,29 @@ fn bench_async_vs_sync_comparison(c: &mut Criterion) {
                         count += 1;
                     }
                     count
+                })
+            },
+        );
+        
+        // Test tokio-rev-lines implementation
+        group.bench_with_input(
+            BenchmarkId::new("tokio_rev_lines", num_lines),
+            &test_data,
+            |b, data| {
+                b.iter(|| {
+                    rt.block_on(async {
+                        let cursor = Cursor::new(data.as_bytes());
+                        let buf_reader = BufReader::new(cursor);
+                        let rev_lines = RevLines::new(buf_reader).await.unwrap();
+                        pin_mut!(rev_lines);
+                        let mut count = 0;
+
+                        while let Some(line) = rev_lines.next().await {
+                            black_box(line.unwrap());
+                            count += 1;
+                        }
+                        count
+                    })
                 })
             },
         );

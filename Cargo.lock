@@ -61,10 +61,12 @@ name = "async-rev-buf"
 version = "0.1.0"
 dependencies = [
  "criterion",
+ "futures-util",
  "pin-project-lite",
  "rev_buf_reader",
  "tempfile",
  "tokio",
+ "tokio-rev-lines",
 ]
 
 [[package]]
@@ -1035,6 +1037,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "thiserror"
+version = "1.0.69"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b6aaf5339b578ea85b50e080feb250a3e8ae8cfcdff9a461c9ec2904bc923f52"
+dependencies = [
+ "thiserror-impl",
+]
+
+[[package]]
+name = "thiserror-impl"
+version = "1.0.69"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4fee6c4efc90059e10f81e6d42c60a18f76588c3d74cb83a0b242a2b6c7504c1"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.101",
+]
+
+[[package]]
 name = "tinytemplate"
 version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1071,6 +1093,17 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 2.0.101",
+]
+
+[[package]]
+name = "tokio-rev-lines"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bfaf42fa0dfb3a10dec17445275e106d5eaaa360941d9bfe6f7cc86e4780ff55"
+dependencies = [
+ "futures-util",
+ "thiserror",
+ "tokio",
 ]
 
 [[package]]
