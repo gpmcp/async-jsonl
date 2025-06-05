@@ -1,5 +1,6 @@
 use async_rev_buf::RevBufReader;
 use criterion::{criterion_group, criterion_main, BenchmarkId, Criterion, Throughput};
+use futures_util::{pin_mut, StreamExt};
 use rev_buf_reader::RevBufReader as SyncRevBufReader;
 use std::hint::black_box;
 use std::io::{BufRead, Cursor};
@@ -7,7 +8,6 @@ use tokio::io::AsyncBufReadExt;
 use tokio::io::BufReader;
 use tokio::runtime::Runtime;
 use tokio_rev_lines::RevLines;
-use futures_util::{pin_mut, StreamExt};
 
 fn create_test_data(num_lines: usize) -> String {
     (0..num_lines)
@@ -88,7 +88,7 @@ fn bench_async_vs_sync_comparison(c: &mut Criterion) {
                 })
             },
         );
-        
+
         // Test tokio-rev-lines implementation
         group.bench_with_input(
             BenchmarkId::new("tokio_rev_lines", num_lines),
