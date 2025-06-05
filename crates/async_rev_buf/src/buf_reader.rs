@@ -81,17 +81,17 @@ impl<R: AsyncRead + AsyncSeek + Unpin> RevBufReader<R> {
         if self.file_pos == 0 {
             return Ok(0);
         }
-        
+
         // Calculate how much we can actually seek back
         let seek_amount = std::cmp::min(length as u64, self.file_pos) as usize;
         let new_pos = self.file_pos - seek_amount as u64;
-        
+
         // Seek to the new position
         self.inner.seek(SeekFrom::Start(new_pos)).await?;
         self.file_pos = new_pos;
         self.cap = 0;
         self.pos = 0;
-        
+
         Ok(seek_amount)
     }
 
@@ -102,7 +102,7 @@ impl<R: AsyncRead + AsyncSeek + Unpin> RevBufReader<R> {
             if length == 0 {
                 return Ok(&[]);
             }
-            
+
             // Read the data from current position
             let mut total_read = 0;
             while total_read < length {
@@ -111,7 +111,7 @@ impl<R: AsyncRead + AsyncSeek + Unpin> RevBufReader<R> {
                     n => total_read += n,
                 }
             }
-            
+
             self.cap = total_read;
             self.pos = total_read; // Start from the end of the buffer
         }
@@ -126,7 +126,7 @@ impl<R: AsyncRead + AsyncSeek + Unpin> RevBufReader<R> {
     /// Core optimized line reading implementation
     async fn read_line_internal(&mut self, buf: &mut String) -> IoResult<usize> {
         self.ensure_initialized().await?;
-        
+
         if self.file_size == 0 {
             return Ok(0);
         }
@@ -144,11 +144,12 @@ impl<R: AsyncRead + AsyncSeek + Unpin> RevBufReader<R> {
             };
 
             // Search for newline from the end
-            if let Some(newline_pos) = buffer_slice.iter().rposition(|&b| b == b'\n' || b == b'\r') {
+            if let Some(newline_pos) = buffer_slice.iter().rposition(|&b| b == b'\n' || b == b'\r')
+            {
                 // Found a newline - extract the line after it
                 let line_start = newline_pos + 1;
                 let line_data = &buffer_slice[line_start..current_pos];
-                
+
                 // Build the line (prepend since we're reading backward)
                 let mut new_line = line_data.to_vec();
                 new_line.extend_from_slice(&line_buffer);
@@ -171,9 +172,9 @@ impl<R: AsyncRead + AsyncSeek + Unpin> RevBufReader<R> {
                 let mut new_line = buffer_slice;
                 new_line.extend_from_slice(&line_buffer);
                 line_buffer = new_line;
-                
+
                 self.consume(current_pos);
-                
+
                 if self.file_pos == 0 && self.pos == 0 {
                     // Reached start of file
                     if !line_buffer.is_empty() {

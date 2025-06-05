@@ -17,19 +17,19 @@ impl<R> Lines<R> {
 
 impl<R: AsyncRead + AsyncSeek + Unpin> Lines<R> {
     /// Returns the next line in reverse order, following tokio patterns
-    /// 
+    ///
     /// # Examples
-    /// 
+    ///
     /// ```rust
     /// use async_rev_buf::RevBufReader;
     /// use std::io::Cursor;
-    /// 
+    ///
     /// async fn example() -> std::io::Result<()> {
     ///     let data = "first line\nsecond line\nthird line";
     ///     let cursor = Cursor::new(data);
     ///     let reader = RevBufReader::new(cursor);
     ///     let mut lines = reader.lines();
-    /// 
+    ///
     ///     // Read lines in reverse order
     ///     assert_eq!(lines.next_line().await?, Some("third line".to_string()));
     ///     assert_eq!(lines.next_line().await?, Some("second line".to_string()));
