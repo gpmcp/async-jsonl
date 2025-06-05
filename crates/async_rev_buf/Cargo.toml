@@ -2,6 +2,12 @@
 name = "async-rev-buf"
 version = "0.1.0"
 edition = "2021"
+license = "Apache-2.0"
+authors = ["Sandipsinh Rathod <sandipsinh@gpmcp.com>"]
+repository = "https://github.com/gpmcp/async-jsonl"
+description = "High-performance async buffered reader for reading lines in reverse order from files and streams"
+keywords = ["async", "reverse", "buffer", "tokio", "lines"]
+categories = ["asynchronous", "filesystem", "parsing"]
 
 [dependencies]
 pin-project-lite = "0.2.16"
