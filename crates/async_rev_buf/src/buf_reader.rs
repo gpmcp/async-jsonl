@@ -190,7 +190,7 @@ impl<R: AsyncRead + AsyncSeek + Unpin> RevBufReader<R> {
         Ok(0)
     }
 
-    /// Read the next line in reverse order (public API)
+    /// Read the next line in reverse order
     pub async fn next_line(&mut self) -> IoResult<Option<String>> {
         let mut line = String::new();
         match self.read_line_internal(&mut line).await? {
